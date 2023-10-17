@@ -16,9 +16,18 @@ React 구성 요소 파일을 만들고 NextJS가 폴더 구조에서 경로를 
  |
  |
  |-- /products
+ |  |
+ |  |-- index.js      => zenghyun.com/products
+ |  |-- [id].js       => zenghyun.com/products/1
+ |
+ |-- /clients 
     |
-    |-- index.js      => zenghyun.com/products
-    |-- [id].js       => zenghyun.com/products/1
+    |-- index.js      => zenghyun.com/clients
+    |-- [id]          
+        |
+        |-- index.js                => zenghyun.com/client/zenghyun
+        |-- [clientprojectid].js    => zenghyun.com/clients/zenghyun/project1 
+
 ```
 
 ### File-based vs Code-based
