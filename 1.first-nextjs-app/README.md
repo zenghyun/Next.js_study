@@ -1,40 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Module Content
 
-## Getting Started
+- Understanding File-based Routing
+- Static & Dynamic Routes
+- Navigating Between Pages
+  
+### 파일 기반 라우팅이란 무엇인가? 
+React 구성 요소 파일을 만들고 NextJS가 폴더 구조에서 경로를 추론하도록 합니다. => `/pages` 폴더
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 구조 미리보기
+```
+ |- /pages 
+ |
+ |-- index.js       => zenghyun.com/
+ |-- about.js       => zenghyun.com/about
+ |
+ |
+ |-- /products
+    |
+    |-- index.js      => zenghyun.com/products
+    |-- [id].js       => zenghyun.com/products/1
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### File-based vs Code-based
+#### File-based Routing (NextJS)
+- boilerplate code가 필요하지 않습니다.
+- 직관적인 시스템
+- 파일 폴더 구조(페이지/폴더 단위)가 경로에 영향을 미칩니다.
+- 탐색은 `<Link>` 구성요소와 명령적으로 작동합니다.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Code-based Routing (React + react-router)
+- boilerplate code가 필요합니다. (<Switch>, <Route>, ...)
+- 간단하지만 새로운 구성 요소 개념이 포함되어 있습니다.
+- 파일 폴더 설정은 전혀 중요하지 않습니다.
+- 탐색은 `<Link>` 구성요소와 명령적으로 작동합니다.
