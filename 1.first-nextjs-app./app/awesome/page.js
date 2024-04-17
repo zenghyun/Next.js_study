@@ -1,7 +1,7 @@
 export default function AwesomePage() {
   return (
     <main>
-      <h1>NextJs Is Awesome!</h1>
+      <h1>NextJS Is Awesome!</h1>
     </main>
   );
 }
