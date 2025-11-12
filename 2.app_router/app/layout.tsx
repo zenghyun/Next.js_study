@@ -1,5 +1,7 @@
 import "./globals.css";
 
+// 정해진 이름임 => 메타데이터sss
+// head에 들어갈 정보를 정의할 수 있음 (title, description, keywords, etc.)
 export const metadata = {
   title: "NextJS Course App",
   description: "Your first NextJS app!",
