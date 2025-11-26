@@ -10,6 +10,12 @@ export default function BlogPage() {
       <p>
         <Link href="/blog/post-2">Post2</Link>
       </p>
+      <p>
+        <Link href="/blog/post-3">Post3</Link>
+      </p>
+      <p>
+        <Link href="/blog/post-3/post-4">Post3</Link>
+      </p>
     </main>
   );
 }
