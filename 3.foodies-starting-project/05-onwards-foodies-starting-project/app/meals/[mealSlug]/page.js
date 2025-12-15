@@ -1,10 +1,15 @@
 import Image from "next/image";
 import classes from "./page.module.css";
 import { getMeal } from "@/lib/meal";
+import { notFound } from "next/navigation";
 export default function MealDetailsPage({ params }) {
-  console.log("🚀 ~ MealDetailsPage ~ params:", params);
   const meal = getMeal(params.mealSlug);
   // meal.instructions = meal.instructions.replace(/\n/g, "<br />");
+
+  if (!meal) {
+    // 제일 가까운 not-found나 오류 화면을 보여줌
+    notFound();
+  }
   return (
     <>
       <header className={classes.header}>

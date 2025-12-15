@@ -1,4 +1,7 @@
 import sql from "better-sqlite3";
+import slugify from "slugify";
+import xss from "xss";
+import fs from "node:fs";
 const db = sql("meals.db");
 
 export async function getMeals() {
@@ -19,4 +22,32 @@ export function getMeal(slug) {
   // 쿼리 매개변수를 사용하면 쿼리를 준비하고 데이터를 삽입, 업데이트, 삭제하는 데 사용됨
   // db.prepare("SELECT * FROM meals WHERE slug = ?").get(slug); 쿼리를 준비하고 데이터를 반환함
   return db.prepare("SELECT * FROM meals WHERE slug = ?").get(slug);
+}
+
+export async function saveMeal(meal) {
+  /**
+   * lower: 소문자로 변환
+   */
+  meal.slug = slugify(meal.title, { lower: true });
+  meal.instructions = xss(meal.instructions);
+
+  const extension = meal.image.name.split(".").pop();
+  const fileName = `${meal.slug}.${extension}`;
+
+  const stream = fs.createWriteStream(`public/images/${fileName}`, {
+    flags: "w",
+  });
+  const bufferedImage = await meal.image.arrayBuffer();
+  stream.write(Buffer.from(bufferedImage), (error) => {
+    if (error) {
+      throw new Error("Saving image failed");
+    }
+    console.log("Image saved successfully");
+  });
+  meal.image = `/images/${fileName}`;
+
+  db.prepare(
+    "INSERT INTO meals (title, summary, instructions, image, creator, creator_email, slug) VALUES (@title, @summary, @instructions, @image, @creator, @creator_email, @slug)"
+  ).run(meal);
+  return meal;
 }
