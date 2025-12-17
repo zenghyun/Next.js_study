@@ -14,7 +14,12 @@ import { redirect } from "next/navigation";
  * use server 키워드는 use client 키워드와 반대로 클라이언트 컴포넌트에서 사용하지 않고 서버 컴포넌트에서 사용합니다.
  * 둘이 동시에 사용할 수 없음
  */
-export async function shareMeal(formData) {
+
+function isInvalidText(text) {
+  return !text || text.trim().length === 0;
+}
+
+export async function shareMeal(_prevState, formData) {
   const meal = {
     title: formData.get("title"),
     summary: formData.get("summary"),
@@ -23,6 +28,20 @@ export async function shareMeal(formData) {
     creator: formData.get("name"),
     creator_email: formData.get("email"),
   };
+
+  if (
+    isInvalidText(meal.title) ||
+    isInvalidText(meal.summary) ||
+    isInvalidText(meal.instructions) ||
+    isInvalidText(meal.creator) ||
+    isInvalidText(meal.creator_email) ||
+    !meal.creator_email.includes("@") ||
+    !meal.image ||
+    meal.image.size === 0
+  ) {
+    return { message: "Invalid input" };
+  }
+
   await saveMeal(meal);
   redirect("/meals");
 }
