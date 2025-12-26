@@ -2,7 +2,11 @@ import sql from "better-sqlite3";
 import slugify from "slugify";
 import xss from "xss";
 import fs from "node:fs";
-const db = sql("meals.db");
+import { S3 } from "@aws-sdk/client-s3";
+const s3 = new S3({
+  region: "ap-southeast-2",
+});
+const db = sql("meals.db"); // <- this was already there!
 
 export async function getMeals() {
   // .all() 메서드는 모든 데이터를 배열로 반환함
@@ -25,29 +29,37 @@ export function getMeal(slug) {
 }
 
 export async function saveMeal(meal) {
-  /**
-   * lower: 소문자로 변환
-   */
+  // lower => 소문자로 변환
   meal.slug = slugify(meal.title, { lower: true });
   meal.instructions = xss(meal.instructions);
 
   const extension = meal.image.name.split(".").pop();
   const fileName = `${meal.slug}.${extension}`;
 
-  const stream = fs.createWriteStream(`public/images/${fileName}`, {
-    flags: "w",
-  });
   const bufferedImage = await meal.image.arrayBuffer();
-  stream.write(Buffer.from(bufferedImage), (error) => {
-    if (error) {
-      throw new Error("Saving image failed");
-    }
-    console.log("Image saved successfully");
+
+  await s3.putObject({
+    Bucket: "zenghyun-nextjs-demo-users-image",
+    Key: fileName,
+    Body: Buffer.from(bufferedImage),
+    ContentType: meal.image.type,
   });
-  meal.image = `/images/${fileName}`;
+
+  meal.image = fileName;
 
   db.prepare(
-    "INSERT INTO meals (title, summary, instructions, image, creator, creator_email, slug) VALUES (@title, @summary, @instructions, @image, @creator, @creator_email, @slug)"
+    `
+    INSERT INTO meals
+      (title, summary, instructions, creator, creator_email, image, slug)
+    VALUES (
+      @title,
+      @summary,
+      @instructions,
+      @creator,
+      @creator_email,
+      @image,
+      @slug
+    )
+  `
   ).run(meal);
-  return meal;
 }

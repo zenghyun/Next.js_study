@@ -13,7 +13,11 @@ export default function MealItem({ title, slug, image, summary, creator }) {
         폭이나 너비를 명시적으로 설정하는 것이 아닌 모를 경우 사용하면 됨 
         https://nextjs.org/docs/app/api-reference/components/image#fill
             */}
-          <Image src={image} alt={title} fill />
+          <Image
+            src={`https://zenghyun-nextjs-demo-users-image.s3.amazonaws.com/${image}`}
+            alt={title}
+            fill
+          />
         </div>
         <div className={classes.headerText}>
           <h2>{title}</h2>

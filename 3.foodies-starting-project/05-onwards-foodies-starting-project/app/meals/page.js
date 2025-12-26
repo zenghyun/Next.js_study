@@ -18,6 +18,13 @@ React.lazy(), 동적 import 등에 사용
 'use client' 필요
  * 
  */
+
+// 정적 metadata 설정
+export const metadata = {
+  title: "All Meals",
+  description: "Browse the delicious meals shared by our vibrant community.",
+};
+
 async function Meals() {
   const meals = await getMeals();
   return (
