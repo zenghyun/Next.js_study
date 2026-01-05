@@ -9,8 +9,9 @@ import Link from "next/link";
 
 /**
  *
- * @param {*} param0
+ * @param {*} param
  * @returns
+ *
  *
  * Catch all router
  * 병렬 라우트에서 어떤 페이지에 들어가도 노출시킬 수 있는 페이지
