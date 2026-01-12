@@ -1,7 +1,6 @@
-"use client";
-
-import { DUMMY_NEWS } from "@/dummy-news";
-import { notFound, useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
+import ModalBackdrop from "@/components/modal-backdrop";
+import { getNewsItem } from "@/lib/news";
 /**
  *
  * @param {*} param0
@@ -13,19 +12,16 @@ import { notFound, useRouter } from "next/navigation";
  *
  * useRouter는 클라이언트 컴포넌트에서 사용할 수 있는 라우터 객체를 제공함
  */
-export default function ImagePage({ params }) {
-  const router = useRouter();
+export default async function ImagePage({ params }) {
   const newsItemSlug = params.slug;
-  const newsItem = DUMMY_NEWS.find(
-    (newsItem) => newsItem.slug === newsItemSlug
-  );
+  const newsItem = await getNewsItem(newsItemSlug);
 
   if (!newsItem) {
     notFound();
   }
   return (
     <>
-      <div className="modal-backdrop" onClick={() => router.back()} />
+      <ModalBackdrop />
       <dialog className="modal" open>
         <div id="fullscreen-image">
           <img src={`/images/news/${newsItem.image}`} alt={newsItem.title} />
